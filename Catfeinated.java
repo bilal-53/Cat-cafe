@@ -1,7 +1,8 @@
-package assignment3;
+
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class Catfeinated implements Iterable<Cat> {
 
@@ -10,9 +11,7 @@ public class Catfeinated implements Iterable<Cat> {
     public Catfeinated() {
     }
 
-    public Catfeinated(CatNode dNode) {
-        this.root = dNode;
-    }
+    public Catfeinated(CatNode dNode) { this.root = dNode;}
 
     // Constructor that makes a shallow copy of a Catfeinated cafe
     // New CatNode objects, but same Cat objects
@@ -20,7 +19,6 @@ public class Catfeinated implements Iterable<Cat> {
         if (cafe == null || cafe.root == null) {
             this.root = null;
         } else {
-            // helper to copy nodes recursively (creates new CatNode objects but reuses Cat references)
             this.root = copyNode(cafe.root, null);
         }
     }
@@ -30,7 +28,7 @@ public class Catfeinated implements Iterable<Cat> {
             return null;
         }
 
-        CatNode newNode = new CatNode(node.catEmployee); // shallow copy of Cat reference
+        CatNode newNode = new CatNode(node.catEmployee);
         newNode.parent = parent;
         newNode.junior = copyNode(node.junior, newNode);
         newNode.senior = copyNode(node.senior, newNode);
@@ -39,34 +37,30 @@ public class Catfeinated implements Iterable<Cat> {
 
     // add a cat to the cafe database
     public void hire(Cat c) {
-        if (root == null) {
+        if (root == null)
             root = new CatNode(c);
-        } else {
+        else 
             root = root.hire(c);
-        }
     }
 
     // removes a specific cat from the cafe database
     public void retire(Cat c) {
-        if (root != null) {
+        if (root != null)
             root = root.retire(c);
-        }
     }
 
     // get the oldest hire in the cafe
     public Cat findMostSenior() {
-        if (root == null) {
+        if (root == null)
             return null;
-        }
 
         return root.findMostSenior();
     }
 
     // get the newest hire in the cafe
     public Cat findMostJunior() {
-        if (root == null) {
+        if (root == null)
             return null;
-        }
 
         return root.findMostJunior();
     }
@@ -136,9 +130,7 @@ public class Catfeinated implements Iterable<Cat> {
         return res;
     }
 
-    public Iterator<Cat> iterator() {
-        return new CatfeinatedIterator();
-    }
+    public Iterator<Cat> iterator() {return new CatfeinatedIterator();}
 
     public static class CatNode {
 
@@ -180,7 +172,6 @@ public class Catfeinated implements Iterable<Cat> {
                 }
             }
 
-            // The upheap might return a NEW ROOT.
             while (root.parent != null) {
                 root = root.parent;
             }
@@ -198,7 +189,6 @@ public class Catfeinated implements Iterable<Cat> {
 
                 if (node == parent.senior) {
 
-                    // rotate right
                     CatNode B = node.junior;
                     node.junior = parent;
                     parent.senior = B;
@@ -209,7 +199,6 @@ public class Catfeinated implements Iterable<Cat> {
 
                 } else {
 
-                    // rotate left
                     CatNode B = node.senior;
                     node.senior = parent;
                     parent.junior = B;
@@ -409,26 +398,22 @@ public class Catfeinated implements Iterable<Cat> {
 
         // Feel free to modify the toString() method if you'd like to see something else displayed.
         public String toString() {
-            String result = this.catEmployee.toString() + "\n";
-
-            if (this.junior != null) {
-                result += "junior than " + this.catEmployee.toString() + " :\n";
-                result += this.junior.toString();
-            }
-
-            if (this.senior != null) {
-                result += "senior than " + this.catEmployee.toString() + " :\n";
-                result += this.senior.toString();
-            }
-
-            /* if (this.parent != null) {
-                result += "parent of " + this.catEmployee.toString() + " :\n";
-                result += this.parent.catEmployee.toString() +"\n";
-            } */
-
-            return result;
-        }
-    }
+			String result = this.catEmployee.toString() + "\n";
+			if (this.junior != null) {
+				result += "junior than " + this.catEmployee.toString() + " :\n";
+				result += this.junior.toString();
+			}
+			if (this.senior != null) {
+				result += "senior than " + this.catEmployee.toString() + " :\n";
+				result += this.senior.toString();
+			} /*
+			if (this.parent != null) {
+				result += "parent of " + this.catEmployee.toString() + " :\n";
+				result += this.parent.catEmployee.toString() +"\n";
+			}*/
+			return result;
+		}
+	}
 
     public class CatfeinatedIterator implements Iterator<Cat> {
 
@@ -483,4 +468,6 @@ public class Catfeinated implements Iterable<Cat> {
         Cat L = new Cat("Lucifer", 10, 44, 20, 50.0);
     }
 }
+
+
 
