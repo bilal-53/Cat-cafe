@@ -1,4 +1,4 @@
-package assignment3;
+
 
 public class Cat implements Comparable<Cat>{
 
